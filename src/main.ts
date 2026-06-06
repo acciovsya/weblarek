@@ -55,12 +55,10 @@ console.log('===== Модель Buyer (покупатель) =====');
 console.log('Данные покупателя изначально: ', buyerModel.getData());
 console.log('Валидация пустых данных (ошибки по всем полям): ', buyerModel.validate());
 
-// Сохраняем только одно поле — остальные не должны затереться
 buyerModel.setData({ address: 'Москва, ул. Пушкина, д. 1' });
 console.log('Данные после сохранения только address: ', buyerModel.getData());
 console.log('Валидация после ввода только address (3 ошибки): ', buyerModel.validate());
 
-// Дозаполняем остальные поля
 buyerModel.setData({ payment: 'card', email: 'test@example.com', phone: '+79001234567' });
 console.log('Данные после заполнения всех полей: ', buyerModel.getData());
 console.log('Валидация полных данных (ошибок нет, {}): ', buyerModel.validate());
