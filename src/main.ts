@@ -1,7 +1,10 @@
+import { Api } from './components/base/Api';
 import { Basket } from './components/base/Models/Basket';
 import { Buyer } from './components/base/Models/Buyer';
 import { Products } from './components/base/Models/Products';
+import { WebLarekApi } from './components/WebLarekApi';
 import './scss/styles.scss';
+import { API_URL } from './utils/constants';
 import { apiProducts } from './utils/data';
 
 const productsModel = new Products();
@@ -65,3 +68,13 @@ console.log('Валидация полных данных (ошибок нет, 
 
 buyerModel.clear();
 console.log('Данные покупателя после clear: ', buyerModel.getData());
+
+const api = new WebLarekApi(new Api(API_URL));
+
+api
+  .getProducts()
+  .then((data) => {
+    productsModel.setItems(data.items);
+    console.log('Каталог, полученный с сервера: ', productsModel.getItems());
+  })
+  .catch((error) => console.error('Ошибка загрузки каталога: ', error));
