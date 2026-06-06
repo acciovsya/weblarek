@@ -1,4 +1,4 @@
-import { IBuyer, TBuyerErrors, TPayment } from '../../../types';
+import { IBuyer, TBuyerErrors, TPayment } from '../../types';
 
 /**
  * Модель данных покупателя.
@@ -26,7 +26,7 @@ export class Buyer {
   /** Возвращает все данные покупателя одним объектом */
   getData(): IBuyer {
     return {
-      payment: this.payment as TPayment,
+      payment: this.payment,
       address: this.address,
       email: this.email,
       phone: this.phone,
@@ -50,9 +50,9 @@ export class Buyer {
     const errors: TBuyerErrors = {};
 
     if (!this.payment) errors.payment = 'Не выбран вид оплаты';
-    if (!this.address) errors.address = 'Укажите адрес доставки';
-    if (!this.email) errors.email = 'Укажите email';
-    if (!this.phone) errors.phone = 'Укажите телефон';
+    if (!this.address.trim()) errors.address = 'Укажите адрес доставки';
+    if (!this.email.trim()) errors.email = 'Укажите email';
+    if (!this.phone.trim()) errors.phone = 'Укажите телефон';
 
     return errors;
   }

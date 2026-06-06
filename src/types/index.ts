@@ -19,7 +19,7 @@ export interface IProduct {
 }
 
 export interface IBuyer {
-  payment: TPayment;
+  payment: TPayment | '';
   address: string;
   email: string;
   phone: string;

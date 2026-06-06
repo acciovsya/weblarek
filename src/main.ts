@@ -1,7 +1,7 @@
 import { Api } from './components/base/Api';
-import { Basket } from './components/base/Models/Basket';
-import { Buyer } from './components/base/Models/Buyer';
-import { Products } from './components/base/Models/Products';
+import { Basket } from './components/Models/Basket';
+import { Buyer } from './components/Models/Buyer';
+import { Products } from './components/Models/Products';
 import { WebLarekApi } from './components/WebLarekApi';
 import './scss/styles.scss';
 import { API_URL } from './utils/constants';
@@ -69,7 +69,8 @@ console.log('Валидация полных данных (ошибок нет, 
 buyerModel.clear();
 console.log('Данные покупателя после clear: ', buyerModel.getData());
 
-const api = new WebLarekApi(new Api(API_URL));
+const baseApi = new Api(API_URL);
+const api = new WebLarekApi(baseApi);
 
 api
   .getProducts()
