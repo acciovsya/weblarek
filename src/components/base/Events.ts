@@ -3,8 +3,8 @@
 type EventName = string | RegExp;
 type Subscriber = Function;
 type EmitterEvent = {
-    eventName: string,
-    data: unknown
+    eventName: string;
+    data: unknown;
 };
 
 export interface IEvents {
@@ -52,12 +52,15 @@ export class EventEmitter implements IEvents {
      */
     emit<T extends object>(eventName: string, data?: T) {
         this._events.forEach((subscribers, name) => {
-            if (name === '*') subscribers.forEach(callback => callback({
-                eventName,
-                data
-            }));
-            if (name instanceof RegExp && name.test(eventName) || name === eventName) {
-                subscribers.forEach(callback => callback(data));
+            if (name === '*')
+                subscribers.forEach((callback) =>
+                    callback({
+                        eventName,
+                        data,
+                    }),
+                );
+            if ((name instanceof RegExp && name.test(eventName)) || name === eventName) {
+                subscribers.forEach((callback) => callback(data));
             }
         });
     }
@@ -66,7 +69,7 @@ export class EventEmitter implements IEvents {
      * Слушать все события
      */
     onAll(callback: (event: EmitterEvent) => void) {
-        this.on("*", callback);
+        this.on('*', callback);
     }
 
     /**
@@ -83,9 +86,8 @@ export class EventEmitter implements IEvents {
         return (event: object = {}) => {
             this.emit(eventName, {
                 ...(event || {}),
-                ...(context || {})
+                ...(context || {}),
             });
         };
     }
 }
-
