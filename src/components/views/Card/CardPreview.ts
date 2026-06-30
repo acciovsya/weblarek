@@ -51,9 +51,9 @@ export class CardPreview extends Card<TCardPreview> {
         this.descriptionElement.textContent = value;
     }
 
-    // Текст кнопки зависит от того, находится ли товар в корзине
-    set inBasket(value: boolean) {
-        this.buttonElement.textContent = value ? 'Удалить из корзины' : 'Купить';
+    // Текст кнопки- зависит от того, находится ли товар в корзине и наличия цены
+    set buttonText(value: string) {
+        this.buttonElement.textContent = value;
     }
 
     // Блокирует кнопку, когда товар нельзя купить (например, цена null)

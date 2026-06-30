@@ -1,4 +1,4 @@
-import { ensureElement } from '../../../utils/utils';
+import { ensureElement, pluralize } from '../../../utils/utils';
 import { Component } from '../../base/Component';
 
 export interface ICardAction {
@@ -23,6 +23,9 @@ export class Card<T> extends Component<T> {
 
     // Цена null означает «Бесценно» - такой товар нельзя купить
     set price(value: number | null) {
-        this.priceElement.textContent = value === null ? 'Бесценно' : String(value);
+        this.priceElement.textContent =
+            value === null
+                ? 'Бесценно'
+                : `${value} ${pluralize(value, 'синапс', 'синапса', 'синапсов')}`;
     }
 }
