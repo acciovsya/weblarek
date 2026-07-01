@@ -242,4 +242,4 @@ api.getProducts()
         console.error('Ошибка загрузки каталога:', error);
     });
 
-events.onAll((event) => console.log(event.eventName));
+// events.onAll((event) => console.log(event.eventName));
