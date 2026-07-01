@@ -6,6 +6,12 @@ interface IHeader {
     counter: number;
 }
 
+/**
+ * Представление шапки страницы.
+ *
+ * Отображает счётчик товаров в корзине и по клику
+ * сообщает о запросе открытия корзины.
+ */
 export class Header extends Component<IHeader> {
     protected counterElement: HTMLElement;
     protected basketButtonElement: HTMLButtonElement;
@@ -24,7 +30,7 @@ export class Header extends Component<IHeader> {
 
         // Клик по кнопке корзины - запрос на открытие корзины
         this.basketButtonElement.addEventListener('click', () => {
-            this.events.emit(`basket:open`);
+            this.events.emit('basket:open');
         });
     }
 

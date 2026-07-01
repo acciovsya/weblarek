@@ -4,6 +4,11 @@ interface IGallery {
     items: HTMLElement[];
 }
 
+/**
+ * Представление каталога товаров на главной странице.
+ *
+ * Отображает переданный набор карточек товаров.
+ */
 export class Gallery extends Component<IGallery> {
     constructor(container: HTMLElement) {
         super(container);

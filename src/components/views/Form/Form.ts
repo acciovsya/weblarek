@@ -3,9 +3,11 @@ import { Component } from '../../base/Component';
 import { IEvents } from '../../base/Events';
 
 /**
- * Базовый класс форм. Управляет доступностью кнопки отправки и текстом
- * ошибок валидации, а также уведомляет о вводе и отправке через брокер.
- * Конкретные поля добавляют дочерние классы Order и Contacts.
+ * Представление базового класса формы.
+ *
+ * Содержит общий для всех форм функционал - валидность и вывод ошибок.
+ * Самостоятельно не используется.
+ * От него наследуются Order и Contacts.
  */
 export class Form<T> extends Component<T> {
     protected submitButtonElement: HTMLButtonElement;

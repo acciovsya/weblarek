@@ -7,6 +7,11 @@ interface IContactsForm {
     phone: string;
 }
 
+/**
+ * Представление формы ввода контактных данных покупателя (email и телефон).
+ *
+ * Второй шаг оформления заказа.
+ */
 export class Contacts extends Form<IContactsForm> {
     protected emailInputElement: HTMLInputElement;
     protected phoneInputElement: HTMLInputElement;

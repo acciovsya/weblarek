@@ -6,6 +6,11 @@ interface ISuccess {
     total: number;
 }
 
+/**
+ * Представление окна успешного оформления заказа.
+ *
+ * Отображает списанную сумму и по клику сообщает о закрытии.
+ */
 export class Success extends Component<ISuccess> {
     protected descriptionElement: HTMLElement;
     protected closeButtonElement: HTMLButtonElement;

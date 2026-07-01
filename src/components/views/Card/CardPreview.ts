@@ -6,6 +6,12 @@ import { Card, ICardAction } from './Card';
 export type TCardPreview = Pick<IProduct, 'image' | 'category' | 'description'>;
 type CategoryKey = keyof typeof categoryMap;
 
+/**
+ * Представление товара в окне подробного просмотра.
+ *
+ * Дополнительно отображает описание и кнопку добавления/удаления
+ * товара из корзины.
+ */
 export class CardPreview extends Card<TCardPreview> {
     protected categoryElement: HTMLElement;
     protected imageElement: HTMLImageElement;
@@ -43,7 +49,7 @@ export class CardPreview extends Card<TCardPreview> {
 
     // value приходит готовым URL - расширение и CDN подготавливает презентер
     set image(value: string) {
-        this.setImage(this.imageElement, value, this.title);
+        this.setImage(this.imageElement, value);
     }
 
     // Подробное описание товара

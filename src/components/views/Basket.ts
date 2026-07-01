@@ -7,6 +7,12 @@ interface IBasket {
     price: number;
 }
 
+/**
+ * Представление корзины.
+ *
+ * Отображает список выбранных товаров, итоговую сумму
+ * и кнопку перехода к оформлению заказа.
+ */
 export class Basket extends Component<IBasket> {
     protected listElement: HTMLElement;
     protected priceElement: HTMLElement;
@@ -18,7 +24,7 @@ export class Basket extends Component<IBasket> {
     ) {
         super(container);
 
-        this.listElement = ensureElement<HTMLButtonElement>('.basket__list', this.container);
+        this.listElement = ensureElement<HTMLElement>('.basket__list', this.container);
         this.priceElement = ensureElement<HTMLElement>('.basket__price', this.container);
         this.buttonElement = ensureElement<HTMLButtonElement>('.basket__button', this.container);
 
@@ -26,7 +32,7 @@ export class Basket extends Component<IBasket> {
         this.buttonElement.addEventListener('click', () => this.events.emit('order:open'));
     }
 
-    // Список товаров либо заглушка для пустой корзины
+    // Заполняет список карточкками товаров
     set items(value: HTMLElement[]) {
         this.listElement.replaceChildren(...value);
     }

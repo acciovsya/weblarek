@@ -8,6 +8,11 @@ interface IOrderForm {
     address: string;
 }
 
+/**
+ * Представление формы выбора способа оплаты и адреса доставки.
+ *
+ * Первый шаг оформления заказа.
+ */
 export class Order extends Form<IOrderForm> {
     protected cardButtonElement: HTMLButtonElement;
     protected cashButtonElement: HTMLButtonElement;

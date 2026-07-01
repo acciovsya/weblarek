@@ -5,6 +5,13 @@ export interface ICardAction {
     onClick: (event: MouseEvent) => void;
 }
 
+/**
+ * Представление базового класса карточки товара.
+ *
+ * Содержит общий для всех карточек функционал - название и цену.
+ * Самостоятельно не используется, от него наследуются
+ * CardCatalog, CardPreview и CardBasket.
+ */
 export class Card<T> extends Component<T> {
     protected titleElement: HTMLElement;
     protected priceElement: HTMLElement;

@@ -6,6 +6,12 @@ import { Card, ICardAction } from './Card';
 export type TCardCatalog = Pick<IProduct, 'image' | 'category'>;
 type CategoryKey = keyof typeof categoryMap;
 
+/**
+ * Представление карточки товара в каталоге.
+ *
+ * Отображает категорию, изображение, название и цену.
+ * По клику сообщает о выборе товара для подробного просмотра.
+ */
 export class CardCatalog extends Card<TCardCatalog> {
     protected categoryElement: HTMLElement;
     protected imageElement: HTMLImageElement;

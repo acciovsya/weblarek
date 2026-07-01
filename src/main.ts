@@ -214,7 +214,7 @@ events.on('contacts:submit', () => {
         });
 });
 
-// Оформление заказа
+// Закрытие модалки после завершения заказа при успехе
 events.on('success:close', () => {
     modal.close();
 });

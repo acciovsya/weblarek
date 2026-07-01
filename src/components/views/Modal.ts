@@ -6,6 +6,12 @@ interface IModal {
     content: HTMLElement;
 }
 
+/**
+ * Представление модального окна.
+ *
+ * Отображает переданное содержимое (корень любого самостоятельного
+ * компонента) и управляет своей видимостью.
+ */
 export class Modal extends Component<IModal> {
     protected closeButtonElement: HTMLButtonElement;
     protected contentElement: HTMLElement;
@@ -34,7 +40,8 @@ export class Modal extends Component<IModal> {
         this.contentElement.replaceChildren(value);
     }
 
-    // Открывает окно и уведомляет презентер
+    // Открывает окно
+    // (блокирование скролла уже есть в css)
     open(): void {
         this.container.classList.add('modal_active');
     }
