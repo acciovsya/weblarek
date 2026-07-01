@@ -27,7 +27,7 @@ export class Success extends Component<ISuccess> {
 
         // Клик по кнопке закрывает модальное окно
         this.closeButtonElement.addEventListener('click', () => {
-            this.events.emit('modal:close');
+            this.events.emit('success:close');
         });
     }
 
