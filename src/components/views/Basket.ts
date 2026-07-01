@@ -1,3 +1,4 @@
+import { Events } from '../../utils/constants';
 import { ensureElement, pluralize } from '../../utils/utils';
 import { Component } from '../base/Component';
 import { IEvents } from '../base/Events';
@@ -29,7 +30,7 @@ export class Basket extends Component<IBasket> {
         this.buttonElement = ensureElement<HTMLButtonElement>('.basket__button', this.container);
 
         // Клик по кнопке - запрос на оформление заказа
-        this.buttonElement.addEventListener('click', () => this.events.emit('order:open'));
+        this.buttonElement.addEventListener('click', () => this.events.emit(Events.OrderOpen));
     }
 
     // Заполняет список карточкками товаров

@@ -1,3 +1,4 @@
+import { Events } from '../../utils/constants';
 import { ensureElement, pluralize } from '../../utils/utils';
 import { Component } from '../base/Component';
 import { IEvents } from '../base/Events';
@@ -32,7 +33,7 @@ export class Success extends Component<ISuccess> {
 
         // Клик по кнопке закрывает модальное окно
         this.closeButtonElement.addEventListener('click', () => {
-            this.events.emit('success:close');
+            this.events.emit(Events.SuccessClose);
         });
     }
 

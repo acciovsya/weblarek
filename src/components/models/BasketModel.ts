@@ -1,4 +1,5 @@
 import { IProduct } from '../../types';
+import { Events } from '../../utils/constants';
 import { IEvents } from '../base/Events';
 
 /**
@@ -19,19 +20,19 @@ export class BasketModel {
     /** Добавляет переданный товар в массив корзины */
     addItem(item: IProduct): void {
         this.items.push(item);
-        this.events.emit('basket:changed');
+        this.events.emit(Events.BasketChanged);
     }
 
     /** Удаляет переданный товар из массива корзины */
     removeItem(item: IProduct): void {
         this.items = this.items.filter((product) => product.id !== item.id);
-        this.events.emit('basket:changed');
+        this.events.emit(Events.BasketChanged);
     }
 
     /** Очищает корзину, удаляя все товары */
     clear(): void {
         this.items = [];
-        this.events.emit('basket:changed');
+        this.events.emit(Events.BasketChanged);
     }
 
     /** Возвращает суммарную стоимость всех товаров в корзине

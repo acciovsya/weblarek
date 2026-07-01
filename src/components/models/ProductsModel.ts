@@ -1,4 +1,5 @@
 import { IProduct } from '../../types';
+import { Events } from '../../utils/constants';
 import { IEvents } from '../base/Events';
 
 /**
@@ -16,7 +17,7 @@ export class ProductsModel {
     /** Сохраняет массив товаров, полученный в параметре */
     setItems(items: IProduct[]): void {
         this.items = items;
-        this.events.emit('catalog:changed');
+        this.events.emit(Events.CatalogChanged);
     }
 
     /** Возвращает массив всех товаров */
@@ -32,7 +33,7 @@ export class ProductsModel {
     /** Сохраняет товар для подробного отображения */
     setSelectedItem(item: IProduct): void {
         this.selectedItem = item;
-        this.events.emit('preview:changed');
+        this.events.emit(Events.PreviewChanged);
     }
 
     /** Возвращает товар, выбранный для подробного отображения */

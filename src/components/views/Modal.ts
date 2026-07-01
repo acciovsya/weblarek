@@ -1,3 +1,4 @@
+import { Events } from '../../utils/constants';
 import { ensureElement } from '../../utils/utils';
 import { Component } from '../base/Component';
 import { IEvents } from '../base/Events';
@@ -50,6 +51,6 @@ export class Modal extends Component<IModal> {
     close(): void {
         this.container.classList.remove('modal_active');
         this.contentElement.replaceChildren();
-        this.events.emit('modal:close');
+        this.events.emit(Events.ModalClose);
     }
 }

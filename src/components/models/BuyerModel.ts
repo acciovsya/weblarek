@@ -1,4 +1,5 @@
 import { IBuyer, TBuyerErrors, TPayment } from '../../types';
+import { Events } from '../../utils/constants';
 import { IEvents } from '../base/Events';
 
 /**
@@ -25,7 +26,7 @@ export class BuyerModel {
         if (data.email !== undefined) this.email = data.email;
         if (data.phone !== undefined) this.phone = data.phone;
 
-        this.events.emit('buyer:changed');
+        this.events.emit(Events.BuyerChanged);
     }
 
     /** Возвращает все данные покупателя одним объектом */
@@ -45,7 +46,7 @@ export class BuyerModel {
         this.email = '';
         this.phone = '';
 
-        this.events.emit('buyer:changed');
+        this.events.emit(Events.BuyerChanged);
     }
 
     /**

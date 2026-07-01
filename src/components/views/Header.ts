@@ -1,3 +1,4 @@
+import { Events } from '../../utils/constants';
 import { ensureElement } from '../../utils/utils';
 import { Component } from '../base/Component';
 import { IEvents } from '../base/Events';
@@ -30,7 +31,7 @@ export class Header extends Component<IHeader> {
 
         // Клик по кнопке корзины - запрос на открытие корзины
         this.basketButtonElement.addEventListener('click', () => {
-            this.events.emit('basket:open');
+            this.events.emit(Events.BasketOpen);
         });
     }
 
