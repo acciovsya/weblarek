@@ -2,6 +2,11 @@ import { ensureElement } from '../../../utils/utils';
 import { Component } from '../../base/Component';
 import { IEvents } from '../../base/Events';
 
+export interface IForm {
+    valid: boolean;
+    errors: string;
+}
+
 /**
  * Представление базового класса формы.
  *
@@ -9,7 +14,7 @@ import { IEvents } from '../../base/Events';
  * Самостоятельно не используется.
  * От него наследуются Order и Contacts.
  */
-export class Form<T> extends Component<T> {
+export class Form<T> extends Component<T & IForm> {
     protected submitButtonElement: HTMLButtonElement;
     protected errorsElement: HTMLElement;
     protected formName: string;

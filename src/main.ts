@@ -39,14 +39,12 @@ const basket = new Basket(cloneTemplate<HTMLElement>('#basket'), events);
 const order = new Order(cloneTemplate<HTMLFormElement>('#order'), events);
 const contacts = new Contacts(cloneTemplate<HTMLFormElement>('#contacts'), events);
 const success = new Success(cloneTemplate<HTMLElement>('#success'), events);
-
-// Открытое превью
-let preview: CardPreview | null = null;
+const preview = new CardPreview(cloneTemplate<HTMLElement>('#card-preview'), {
+    onClick: () => events.emit(Events.PreviewToggle),
+});
 
 /**  Состояние кнопки превью: недоступно/ удалить / купить */
 function renderPreviewButton(item: IProduct): void {
-    if (!preview) return;
-
     if (item.price === null) {
         preview.buttonText = 'Недоступно';
         preview.buttonDisabled = true;
@@ -60,11 +58,15 @@ function renderPreviewButton(item: IProduct): void {
 }
 
 /**  Валидация и ошибки форм по данным покупателя */
-function renderFormState() {
+function renderFormState(): void {
     const data = buyerModel.getData();
     const errors = buyerModel.validate();
 
     order.payment = data.payment;
+    order.address = data.address;
+    contacts.email = data.email;
+    contacts.phone = data.phone;
+
     const orderError = errors.payment ?? errors.address ?? '';
     order.valid = !orderError;
     order.errors = orderError;
@@ -80,7 +82,7 @@ function catalogCard(item: IProduct): HTMLElement {
         onClick: () => events.emit(Events.CardSelect, { id: item.id }),
     });
 
-    return card.render({ ...item, image: resolveImageUrl(item.image, CDN_URL) });
+    return card.render(item);
 }
 
 /**  Собирает строку корзины с обработчиком удаления */
@@ -104,36 +106,17 @@ events.on(Events.PreviewChanged, () => {
     const item = productsModel.getSelectedItem();
     if (!item) return;
 
-    preview = new CardPreview(cloneTemplate('#card-preview'), {
-        onClick: () => {
-            if (basketModel.hasItem(item.id)) {
-                events.emit(Events.BasketRemove, { id: item.id });
-            } else {
-                events.emit(Events.CardAdd, { id: item.id });
-            }
-        },
-    });
-
-    const node = preview.render({ ...item, image: resolveImageUrl(item.image, CDN_URL) });
+    modal.content = preview.render(item);
     renderPreviewButton(item);
-
-    modal.content = node;
     modal.open();
 });
 
 // Изменение корзины
 events.on(Events.BasketChanged, () => {
     header.counter = basketModel.getCount();
-
     basket.items = basketModel.getItems().map(basketCard);
     basket.price = basketModel.getTotalPrice();
     basket.buttonDisabled = basketModel.getCount() === 0;
-
-    // Если открыто превью - пересчитываем состояние его кнопки
-    const selected = productsModel.getSelectedItem();
-    if (preview && selected) {
-        renderPreviewButton(selected);
-    }
 });
 
 // Изменение данных покупателя
@@ -143,6 +126,7 @@ events.on(Events.BuyerChanged, () => {
 
 // ==== Обработчики событий представлений ==== //
 
+// Выбор товара в каталоге
 events.on(Events.CardSelect, ({ id }: { id: string }) => {
     const item = productsModel.getItem(id);
     if (item) {
@@ -150,13 +134,21 @@ events.on(Events.CardSelect, ({ id }: { id: string }) => {
     }
 });
 
-events.on(Events.CardAdd, ({ id }: { id: string }) => {
-    const item = productsModel.getItem(id);
-    if (item) {
+// Кнопка в превью
+events.on(Events.PreviewToggle, () => {
+    const item = productsModel.getSelectedItem();
+    if (!item) return;
+
+    if (basketModel.hasItem(item.id)) {
+        basketModel.removeItem(item);
+    } else {
         basketModel.addItem(item);
     }
+
+    modal.close();
 });
 
+// Удаление товара из корзины
 events.on(Events.BasketRemove, ({ id }: { id: string }) => {
     const item = basketModel.getItems().find((product) => product.id === id);
     if (item) {
@@ -164,16 +156,14 @@ events.on(Events.BasketRemove, ({ id }: { id: string }) => {
     }
 });
 
+// Открытие корзины
 events.on(Events.BasketOpen, () => {
-    preview = null;
     modal.content = basket.render();
     modal.open();
 });
 
 // Отркытие первой формы (способ оплаты + адрес)
 events.on(Events.OrderOpen, () => {
-    preview = null;
-    order.address = buyerModel.getData().address;
     modal.content = order.render();
     renderFormState();
     modal.open();
@@ -188,9 +178,6 @@ events.on(Events.OrderOpen, () => {
 
 // Переход ко второй форме (контакты)
 events.on(Events.OrderSubmit, () => {
-    const data = buyerModel.getData();
-    contacts.email = data.email;
-    contacts.phone = data.phone;
     modal.content = contacts.render();
     renderFormState();
 });
@@ -208,23 +195,15 @@ events.on(Events.ContactsSubmit, () => {
 
             basketModel.clear();
             buyerModel.clear();
-            order.address = '';
-            contacts.email = '';
-            contacts.phone = '';
         })
         .catch((error) => {
-            console.error('Ошиька оформления заказа:', error);
+            console.error('Ошибка оформления заказа:', error);
         });
 });
 
 // Закрытие модалки после завершения заказа при успехе
 events.on(Events.SuccessClose, () => {
     modal.close();
-});
-
-// Сброс ссылки на превью при закрытии окна
-events.on(Events.ModalClose, () => {
-    preview = null;
 });
 
 // ### ИНИЦИАЛИЗАЦИЯ ### //
@@ -236,7 +215,14 @@ basket.buttonDisabled = true;
 
 api.getProducts()
     .then((data) => {
-        productsModel.setItems(data.items);
+        // Итоговым планом было хранить в модели сырой ответ сервера, а URL достраивать
+        // при каждом рендере. Сначала рассматривал нормализацию в слое API
+        const items = data.items.map((item) => ({
+            ...item,
+            image: resolveImageUrl(item.image, CDN_URL),
+        }));
+
+        productsModel.setItems(items);
     })
     .catch((error) => {
         console.error('Ошибка загрузки каталога:', error);

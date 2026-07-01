@@ -5,6 +5,11 @@ export interface ICardAction {
     onClick: (event: MouseEvent) => void;
 }
 
+export interface ICard {
+    title: string;
+    price: number | null;
+}
+
 /**
  * Представление базового класса карточки товара.
  *
@@ -12,7 +17,7 @@ export interface ICardAction {
  * Самостоятельно не используется, от него наследуются
  * CardCatalog, CardPreview и CardBasket.
  */
-export class Card<T> extends Component<T> {
+export class Card<T> extends Component<T & ICard> {
     protected titleElement: HTMLElement;
     protected priceElement: HTMLElement;
 
@@ -28,7 +33,7 @@ export class Card<T> extends Component<T> {
         this.titleElement.textContent = value;
     }
 
-    // Цена null означает «Бесценно» - такой товар нельзя купить
+    // Цена null означает "Бесценно" - такой товар нельзя купить
     set price(value: number | null) {
         this.priceElement.textContent =
             value === null

@@ -6,6 +6,7 @@ import { IEvents } from '../base/Events';
 interface IBasket {
     items: HTMLElement[];
     price: number;
+    buttonDisabled: boolean;
 }
 
 /**
@@ -33,7 +34,7 @@ export class Basket extends Component<IBasket> {
         this.buttonElement.addEventListener('click', () => this.events.emit(Events.OrderOpen));
     }
 
-    // Заполняет список карточкками товаров
+    // Заполняет список карточками товаров
     set items(value: HTMLElement[]) {
         this.listElement.replaceChildren(...value);
     }
@@ -48,7 +49,7 @@ export class Basket extends Component<IBasket> {
         )}`;
     }
 
-    // Доступность кнопки оформления - решение принимает презнтер
+    // Доступность кнопки оформления - решение принимает презентер
     set buttonDisabled(value: boolean) {
         this.buttonElement.disabled = value;
     }

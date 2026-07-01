@@ -28,7 +28,7 @@ export const Events = {
 
     // Представления
     CardSelect: 'card:select',
-    CardAdd: 'card:add',
+    PreviewToggle: 'preview:toggle',
     BasketRemove: 'basket:remove',
     BasketOpen: 'basket:open',
     OrderOpen: 'order:open',

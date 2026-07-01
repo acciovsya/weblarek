@@ -1,13 +1,17 @@
 import { ensureElement } from '../../../utils/utils';
 import { Card, ICardAction } from './Card';
 
+interface IBasketItem {
+    index: number;
+}
+
 /**
  * Представление строки товара в списке корзины.
  *
  * Отображает порядковый номер, название и цену.
  * По клику сообщает об удалении товара из корзины.
  */
-export class CardBasket extends Card<object> {
+export class CardBasket extends Card<IBasketItem> {
     protected indexElement: HTMLElement;
     protected deleteButtonElement: HTMLButtonElement;
 

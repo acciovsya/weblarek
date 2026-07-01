@@ -1,9 +1,15 @@
-import { IProduct } from '../../../types';
 import { categoryMap } from '../../../utils/constants';
 import { ensureElement } from '../../../utils/utils';
 import { Card, ICardAction } from './Card';
 
-export type TCardPreview = Pick<IProduct, 'image' | 'category' | 'description'>;
+interface ICardPreview {
+    category: string;
+    image: string;
+    description: string;
+    buttonText: string;
+    buttonDisabled: boolean;
+}
+
 type CategoryKey = keyof typeof categoryMap;
 
 /**
@@ -12,7 +18,7 @@ type CategoryKey = keyof typeof categoryMap;
  * Дополнительно отображает описание и кнопку добавления/удаления
  * товара из корзины.
  */
-export class CardPreview extends Card<TCardPreview> {
+export class CardPreview extends Card<ICardPreview> {
     protected categoryElement: HTMLElement;
     protected imageElement: HTMLImageElement;
     protected descriptionElement: HTMLElement;
